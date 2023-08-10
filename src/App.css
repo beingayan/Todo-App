@@ -1,0 +1,92 @@
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+	width: 100%;
+	min-height: 100vh;
+  background-color: rgb(166, 224, 231);
+}
+.app-body{
+  height: 100%;
+  width: 100%;
+  padding: 2em;
+
+}
+
+
+ #main-title{
+  text-align: center;
+  font-size: 6em;
+  margin: 5px;
+  color: whitesmoke;
+  font-weight: bold;
+
+}
+
+.container{
+  width: 90%;
+	max-width: 1200px;
+	margin: 20px auto;
+  margin-top: 6em;
+  /* background: whitesmoke; */
+  /* box-shadow: 2px 2px 4px white; */
+}
+
+.container .todo-container-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+#demo-select-small{
+  padding: 0.7rem;
+  border: none;
+  /* background-color: #1976d2; */
+  color:white;
+  width: 150px;
+  cursor: pointer;
+  outline: none;
+}
+
+.todo-container{
+  width: 100%;
+  padding: 0.3em;
+  background-color:white;
+  color: gray;
+  margin-top: 1.2rem;
+  
+
+}
+
+.list-header{
+  width: 100%;
+  padding: 1.2em;
+}
+.todo-list-items{
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-content{
+  line-height: 2.2em;
+  margin-left: 2.2em;
+  flex: 1;
+}
+.list-header li {
+  padding: 0.4em;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  /* margin: auto; */
+  margin-top: 5px;
+  text-decoration: none;
+  list-style: none;
+}
