@@ -9,17 +9,29 @@ import TodoList from "./TodoList";
 
 function TodoContainer() {
   const [selectedFilteredVal, setSelectedFilteredVal] = useState(0);
+  const[isAddTodo, setIsAddTod] = useState(false);
 
   const handleChange = (e) => {
     setSelectedFilteredVal(e.target.value);
   };
+
+
+  const addTodo = ()=>{
+setIsAddTod(true)
+  }
+
+  const propItems = {
+    isAddTodo,
+    setIsAddTod
+  }
+
 
   return (
     <Container maxWidth="sm" className="container">
 
 
       <div className="todo-container-header">
-        <Button variant="contained">Add Todo</Button>
+        <Button variant="contained" onClick={addTodo}>Add Todo</Button>
 
         <Select
         value={selectedFilteredVal}
@@ -38,7 +50,7 @@ function TodoContainer() {
       </div>
 
       <div className="todo-container">
-            <TodoList/>
+            <TodoList  parentData={propItems} />
         </div>
 
 
