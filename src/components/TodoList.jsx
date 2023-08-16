@@ -9,21 +9,33 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const label = { inputProps: { "aria-label": "completed" } };
 
+
+  /*
+  * * * * * * * * * * * * * * * * * * * * * * 
+  *                                         *
+  *        custom functions  -start         *
+  *                                         * 
+  * * * * * * * * * * * * * * * * * * * * * *  *                                          
+*/
 const getIntialTodo = () => {
+
   const getTodoList = window.localStorage.getItem("todoList");
   if (getTodoList) {
     return JSON.parse(getTodoList);
   }
 
-  // window.localStorage.setItem("todoList", []);
+ 
   return [];
 };
+
 
 const intialTodo = {
   todoItemList: getIntialTodo(),
 };
 
+
 const addTodo = (state, action) => {
+
   state.todoItemList.push(action.payLoad);
   var getAllTodo = window.localStorage.getItem("todoList");
 
@@ -32,6 +44,7 @@ const addTodo = (state, action) => {
     todoArray.push({ ...action.payLoad });
 
     window.localStorage.setItem("todoList", JSON.stringify(todoArray));
+
   } else {
     window.localStorage.setItem(
       "todoList",
@@ -40,10 +53,29 @@ const addTodo = (state, action) => {
           ...action.payLoad,
         },
       ])
+      
     );
   }
   return state;
 };
+
+
+ /*
+  * * * * * * * * * * * * * * * * * * * * * * 
+  *                                         *
+  *        custom functions  -end           *
+  *                                         * 
+  * * * * * * * * * * * * * * * * * * * * * *  *                                          
+*/
+
+
+  /*
+  * * * * * * * * * * * * * * * * * * * * * * 
+  *                                         *
+  *         Reducers  - start               *
+  *                                         * 
+  * * * * * * * * * * * * * * * * * * * * * *  *                                          
+*/
 
 const todoReducer = (state, action) => {
   switch (action.type) {
@@ -52,10 +84,23 @@ const todoReducer = (state, action) => {
   }
 };
 
+  /*
+  * * * * * * * * * * * * * * * * * * * * * * 
+  *                                         *
+  *         Reducers  - End                 *
+  *                                         * 
+  * * * * * * * * * * * * * * * * * * * * * *  *                                          
+*/
+
+
+
 function TodoList({ parentData }) {
+
   const { isAddTodo, setIsAddTod } = parentData;
   const [todoContent, setTodoContent] = useState("");
   const [todoItems, dispatchTodoITmes] = useReducer(todoReducer, intialTodo);
+
+
 
   const submitTodo = (e) => {
     dispatchTodoITmes({
@@ -70,14 +115,17 @@ function TodoList({ parentData }) {
     setTodoContent(e.target.value);
   };
 
+
   const { todoItemList } = todoItems;
 
   return (
     <>
       <ul className="list-header">
+       
         {todoItemList.length > 0 &&
           todoItemList.map((data, i) => {
             return (
+
               <li className="todo-list-items" key={i}>
                 <Checkbox
                   {...label}
@@ -102,6 +150,7 @@ function TodoList({ parentData }) {
               </li>
             );
           })}
+          
       </ul>
       {isAddTodo === true && (
         <div className="add-content-field">
