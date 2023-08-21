@@ -129,6 +129,11 @@ body {
   position: relative;
 }
 
+.add-content-field .close-todo-icon{
+  position:absolute;
+  top:-8px
+}
+
 .add-content-field input[type="text"] {
   width: 95%;
   padding: 1.1em;

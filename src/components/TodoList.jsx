@@ -51,6 +51,24 @@ const addTodo = (state, action) => {
   return state;
 };
 
+const editTodo = (state, action) => {
+  var getAllTodo = window.localStorage.getItem("todoList");
+  if (getAllTodo) getAllTodo = JSON.parse(getAllTodo);
+
+  var updatedTodo = getAllTodo.map((val, i) => {
+    if (i === action.payLoad.Id) {
+      val.todoContent = action.payLoad.todoContent;
+    }
+    return val;
+  });
+
+  window.localStorage.setItem("todoList", JSON.stringify(updatedTodo));
+
+  state.todoItemList = updatedTodo;
+
+  return state;
+};
+
 /*
  * * * * * * * * * * * * * * * * * * * * * *
  *                                         *
@@ -69,8 +87,11 @@ const addTodo = (state, action) => {
 
 const todoReducer = (state, action) => {
   switch (action.type) {
-    case "Add":
+    case "add":
       return addTodo(state, action);
+
+    case "edit":
+      return editTodo(state, action);
   }
 };
 
@@ -84,23 +105,24 @@ const todoReducer = (state, action) => {
 
 function TodoList({ parentData }) {
   const { isAddTodo, setIsAddTod } = parentData;
-  const [todoContent, setTodoContent] = useState("");
+  const [todoContent, setTodoContent] = useState({});
   const [todoItems, dispatchTodoITmes] = useReducer(todoReducer, intialTodo);
   const [isEdit, setIsEdit] = useState(false);
   const [isVisibleById, setIsvisibleById] = useState(0);
   const [editTodo, setEditTod] = useState();
-
-  const submitTodo = (e) => {
+  const [Id, setId] = useState(0);
+  const submitTodo = (type) => {
     dispatchTodoITmes({
-      type: "Add",
-      payLoad: { todoContent, IsCompleted: false },
+      type: type.toLowerCase(),
+      payLoad: { Id, todoContent, IsCompleted: false },
     });
     setIsAddTod(false);
     setTodoContent("");
+    setIsvisibleById(0);
   };
 
-  const handleTodoContent = (e) => {
-    console.log("value", e.target.value);
+  const handleTodoContent = (e, id = 0) => {
+    setId(id);
     setTodoContent(e.target.value);
   };
 
@@ -155,15 +177,38 @@ function TodoList({ parentData }) {
                   </div>
                 </li>
                 {isVisibleById === i + 1 && (
-                  <input
-                    type="text"
-                    name="edit-todo-item"
-                    placeholder="Add new todo..."
-                    onChange={handleTodoContent}
-                    value={todoContent}
-                  />
+                  // <input
+                  //   type="text"
+                  //   name="edit-todo-item"
+                  //   placeholder="Add new todo..."
+                  //   onChange={handleTodoContent}
+                  //   value={todoContent}
+                  // />
+                  <div className="add-content-field">
+                    <input
+                      type="text"
+                      placeholder="Add new todo..."
+                      onChange={(e) => handleTodoContent(e, i)}
+                      value={todoContent}
+                    />
+                    <HighlightOffIcon
+                      className="close-todo-icon"
+                      onClick={() => {
+                        setIsAddTod(false);
+                        setTodoContent("");
+                        setIsvisibleById(0);
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      className="add-todo-btn"
+                      onClick={() => submitTodo("Edit")}
+                      disabled={!todoContent.length}
+                    >
+                      Add{" "}
+                    </Button>
+                  </div>
                 )}
-
               </>
             );
           })}
@@ -173,7 +218,7 @@ function TodoList({ parentData }) {
           <input
             type="text"
             placeholder="Add new todo..."
-            onChange={handleTodoContent}
+            onChange={(e) => handleTodoContent(e)}
             value={todoContent}
           />
           <HighlightOffIcon
@@ -186,8 +231,8 @@ function TodoList({ parentData }) {
           <Button
             variant="contained"
             className="add-todo-btn"
-            onClick={submitTodo}
-            disabled={!todoContent.length}
+            onClick={() => submitTodo("Add")}
+            disabled={!todoContent.content.length}
           >
             Add{" "}
           </Button>
